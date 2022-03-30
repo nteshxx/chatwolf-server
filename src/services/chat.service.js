@@ -1,4 +1,4 @@
-const { Chat, Message } = require('../models');
+const { Chat, Message, User } = require('../models');
 
 const pushMessage = async (senderId, receiverId, chatId, text, attachment) => {
   const data = await Message.create({ senderId, receiverId, chatId, text, attachment });
@@ -20,8 +20,13 @@ const createNewChat = async (userId, chatId) => {
 };
 
 const retrieveAllChats = async (userId) => {
-  const chats = await Chat.find({ userId });
-  return chats;
+  const allChatsId = await Message.find({ $or: [{ senderId: userId }, { receiverId: userId }] }).distinct('chatId');
+  const participants = allChatsId
+    .reduce((prev, curr) => `${prev}-${curr}`)
+    .split('-')
+    .filter((id) => id !== userId);
+  const users = await User.find({ _id: { $in: participants } }, '_id name');
+  return users;
 };
 
 module.exports = {
