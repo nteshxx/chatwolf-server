@@ -4,7 +4,9 @@ const { joiPassword } = require('joi-password');
 const register = {
   body: Joi.object()
     .keys({
-      name: Joi.string().min(3).max(20).required(),
+      name: Joi.string()
+        .regex(/^[A-Za-z ,.']{3,20}$/)
+        .required(),
       email: Joi.string().email().required(),
       password: joiPassword
         .string()
@@ -41,7 +43,9 @@ const login = {
 const update = {
   body: Joi.object()
     .keys({
-      name: Joi.string().min(3).max(20).required(),
+      name: Joi.string()
+        .regex(/^[A-Za-z ,.']{3,20}$/)
+        .required(),
       password: joiPassword
         .string()
         .min(8)
