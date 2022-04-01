@@ -14,7 +14,7 @@ const httpServer = http.createServer(app);
 // eslint-disable-next-line import/order
 const io = require('socket.io')(httpServer, {
   cors: {
-    origin: ['http://localhost:3000', 'https://chatwolf.vercel.app'],
+    origin: [process.env.ALLOWED_CLIENT1, process.env.ALLOWED_CLIENT2],
     methods: ['GET', 'POST'],
   },
 });
