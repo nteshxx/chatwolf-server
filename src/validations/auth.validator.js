@@ -1,12 +1,27 @@
 const Joi = require('joi');
+const { joiPassword } = require('joi-password');
 
 const register = {
   body: Joi.object()
     .keys({
-      name: Joi.string().required(),
+      name: Joi.string().min(3).max(20).required(),
       email: Joi.string().email().required(),
-      password: Joi.string()
-        .regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,25}$/)
+      password: joiPassword
+        .string()
+        .min(8)
+        .max(25)
+        .minOfSpecialCharacters(1)
+        .minOfLowercase(1)
+        .minOfUppercase(1)
+        .minOfNumeric(1)
+        .noWhiteSpaces()
+        .messages({
+          'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
+          'password.minOfSpecialCharacters': '{#label} should contain at least {#min} special character',
+          'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
+          'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
+          'password.noWhiteSpaces': '{#label} should not contain white spaces',
+        })
         .required(),
     })
     .min(3)
@@ -17,9 +32,7 @@ const login = {
   body: Joi.object()
     .keys({
       email: Joi.string().email().required(),
-      password: Joi.string()
-        .regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,25}$/)
-        .required(),
+      password: Joi.string().min(8).max(25).required(),
     })
     .min(2)
     .max(2),
@@ -28,9 +41,23 @@ const login = {
 const update = {
   body: Joi.object()
     .keys({
-      name: Joi.string(),
-      password: Joi.string()
-        .regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,25}$/)
+      name: Joi.string().min(3).max(20).required(),
+      password: joiPassword
+        .string()
+        .min(8)
+        .max(25)
+        .minOfSpecialCharacters(1)
+        .minOfLowercase(1)
+        .minOfUppercase(1)
+        .minOfNumeric(1)
+        .noWhiteSpaces()
+        .messages({
+          'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
+          'password.minOfSpecialCharacters': '{#label} should contain at least {#min} special character',
+          'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
+          'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
+          'password.noWhiteSpaces': '{#label} should not contain white spaces',
+        })
         .required(),
     })
     .min(2)

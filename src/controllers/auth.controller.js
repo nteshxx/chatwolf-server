@@ -25,8 +25,8 @@ const signin = catchAsync(async (req, res) => {
 
 const signout = async (req, res) => {
   const userId = req.id;
-  const user = await authService.logout(userId);
-  return res.status(httpStatus.OK).json({ message: 'Logged out Successfully', user });
+  await authService.logout(userId);
+  return res.status(httpStatus.OK).json({ message: 'Logged out Successfully' });
 };
 
 module.exports = {
