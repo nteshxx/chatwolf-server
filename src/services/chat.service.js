@@ -38,6 +38,7 @@ const retrieveAllChats = async (userId) => {
         numberOfMessages: { $sum: 1 },
       },
     },
+    { $sort: { timeStamp: -1 } },
   ]);
 
   // get name of all unique receivers
