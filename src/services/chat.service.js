@@ -1,24 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
-const { Chat, Message, User } = require('../models');
+const { Message, User } = require('../models');
 
 const pushMessage = async (senderId, receiverId, chatId, text, attachment) => {
-  const data = await Message.create({ senderId, receiverId, chatId, text, attachment });
-  return data;
+  Message.create({ senderId, receiverId, chatId, text, attachment });
 };
 
+// add pagination here
 const retrieveChat = async (chatId) => {
   const messages = await Message.find({ chatId });
   return messages;
-};
-
-const createNewChat = async (userId, chatId) => {
-  const chatExist = await Chat.findOne({ userId, chatId });
-  if (chatExist) {
-    return chatExist;
-  }
-  const data = await Chat.create({ userId, chatId });
-  return data;
 };
 
 const retrieveAllChats = async (userId) => {
@@ -66,6 +57,5 @@ const retrieveAllChats = async (userId) => {
 module.exports = {
   pushMessage,
   retrieveChat,
-  createNewChat,
   retrieveAllChats,
 };

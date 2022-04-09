@@ -20,16 +20,6 @@ const getMessages = async (req, res) => {
   res.status(httpStatus.OK).json({ message: 'Success', messages });
 };
 
-const createChat = catchAsync(async (req, res) => {
-  const { chatId } = req.body;
-  const userId = req.id;
-  const data = await chatService.createNewChat(userId, chatId);
-  if (data) {
-    return res.status(httpStatus.OK).json({ message: 'Success' });
-  }
-  return res.status(httpStatus.OK).json({ message: 'Failed' });
-});
-
 const getChats = async (req, res) => {
   const userId = req.id;
   const chats = await chatService.retrieveAllChats(userId);
@@ -39,6 +29,5 @@ const getChats = async (req, res) => {
 module.exports = {
   sendMessage,
   getMessages,
-  createChat,
   getChats,
 };

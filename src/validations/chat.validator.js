@@ -23,17 +23,7 @@ const getMessages = {
     .max(1),
 };
 
-const createChat = {
-  body: Joi.object()
-    .keys({
-      chatId: Joi.string().required(),
-    })
-    .min(1)
-    .max(1),
-};
-
 module.exports = {
   sendMessage,
   getMessages,
-  createChat,
 };
