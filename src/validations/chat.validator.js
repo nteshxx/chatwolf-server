@@ -8,7 +8,11 @@ const sendMessage = {
       senderId: Joi.string().custom(objectId),
       receiverId: Joi.string().custom(objectId),
       text: Joi.string().required(),
-      attachment: Joi.string(),
+      attachment: Joi.object().keys({
+        image: Joi.boolean().required(),
+        content: Joi.string().required(),
+        name: Joi.string().required(),
+      }),
     })
     .min(5)
     .max(5),
