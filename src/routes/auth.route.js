@@ -9,5 +9,6 @@ const router = express.Router();
 router.post('/register', validate(authValidator.register), authController.signup);
 router.post('/login', validate(authValidator.login), authController.signin);
 router.get('/logout', authorize(), authController.signout);
+router.put('/upload-avatar', authorize(), validate(authValidator.uploadAvatar), authController.updateAvatar);
 
 module.exports = router;

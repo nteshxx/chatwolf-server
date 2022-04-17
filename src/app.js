@@ -16,9 +16,9 @@ const app = express();
 // set security HTTP headers
 app.use(helmet());
 // parse json request body
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // sanitize request data
 app.use(xss());
 app.use(mongoSanitize());

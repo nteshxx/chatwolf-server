@@ -63,6 +63,11 @@ const logout = async (userId) => {
   return user;
 };
 
+const updateProfile = async (userId, dataUrl) => {
+  const user = await User.findOneAndUpdate({ _id: userId }, { avatar: dataUrl }, { new: true });
+  return user;
+};
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -70,4 +75,5 @@ module.exports = {
   generateToken,
   loginWithEmailAndPassword,
   logout,
+  updateProfile,
 };

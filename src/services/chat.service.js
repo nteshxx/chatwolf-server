@@ -24,7 +24,6 @@ const retrieveAllChats = async (userId) => {
         senderId: { $first: '$senderId' },
         receiverId: { $first: '$receiverId' },
         text: { $first: '$text' },
-        attachment: { $first: '$attachment' },
         timeStamp: { $first: '$createdAt' },
         numberOfMessages: { $sum: 1 },
       },
@@ -32,16 +31,17 @@ const retrieveAllChats = async (userId) => {
     { $sort: { timeStamp: -1 } },
   ]);
 
-  // get name of all unique receivers
+  // get name and avatar of all unique receivers
   const participants = allChats.reduce((prev, curr) => ({ _id: `${prev._id}-${curr._id}` }));
   const ids = participants._id.split('-').filter((id) => id !== userId);
-  const users = await User.find({ _id: { $in: ids } }, '_id name');
+  const users = await User.find({ _id: { $in: ids } }, '_id name avatar');
   const modUsers = users.map((user) => ({
     name: user.name,
+    avatar: user.avatar,
     userid: user._id.toString(),
   }));
 
-  // merge receivers name and thier last message
+  // merge receivers name, avatar and last messages
   const result = [];
   for (let i = 0; i < allChats.length; i += 1) {
     result.push({

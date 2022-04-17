@@ -68,8 +68,18 @@ const update = {
     .max(2),
 };
 
+const uploadAvatar = {
+  body: Joi.object()
+    .keys({
+      dataUrl: Joi.string().required(),
+    })
+    .min(1)
+    .max(1),
+};
+
 module.exports = {
   register,
   login,
   update,
+  uploadAvatar,
 };

@@ -23,14 +23,22 @@ const signin = catchAsync(async (req, res) => {
   return res.status(httpStatus.BAD_REQUEST).json({ message: 'Invalid Email or Password' });
 });
 
-const signout = async (req, res) => {
+const signout = catchAsync(async (req, res) => {
   const userId = req.id;
   await authService.logout(userId);
   return res.status(httpStatus.OK).json({ message: 'Logged out Successfully' });
-};
+});
+
+const updateAvatar = catchAsync(async (req, res) => {
+  const userId = req.id;
+  const { dataUrl } = req.body;
+  authService.updateProfile(userId, dataUrl);
+  return res.status(httpStatus.OK).json({ updatedAvatar: dataUrl, message: 'Avatar Updated Successfully' });
+});
 
 module.exports = {
   signup,
   signin,
   signout,
+  updateAvatar,
 };
