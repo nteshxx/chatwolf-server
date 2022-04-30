@@ -52,11 +52,13 @@ io.on('connection', (socket) => {
   socket.on('send-new-message', (data) => {
     // pushing the message in mongodb db
     const { username, receiver, chatId, text, attachment } = data;
-    chatService.pushMessage(username.split('-')[1], receiver.split('-')[1], chatId, text, attachment);
-    // emit on "chatId" channel to specific (socket.id) only
-    // socket.to('socket.id').emit('channel', data)
-    const socketId = users[data.receiver];
-    io.to(socketId).emit(`${chatId}`, data);
+    if (chatId) {
+      chatService.pushMessage(username.split('-')[1], receiver.split('-')[1], chatId, text, attachment);
+      // emit on "chatId" channel to specific (socket.id) only
+      // socket.to('socket.id').emit('channel', data)
+      const socketId = users[data.receiver];
+      io.to(socketId).emit('new-message', data);
+    }
   });
 });
 
