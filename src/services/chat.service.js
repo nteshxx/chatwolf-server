@@ -16,7 +16,7 @@ const retrieveAllChats = async (userId) => {
   // get all messages of a user and group by unique receivers in descending order
   const allChats = await Message.aggregate([
     { $match: { $or: [{ senderId: mongoose.Types.ObjectId(userId) }, { receiverId: mongoose.Types.ObjectId(userId) }] } },
-    { $project: { chatId: 1, receiverId: 1, senderId: 1, text: 1, attachment: 1, createdAt: 1 } },
+    { $project: { chatId: 1, receiverId: 1, senderId: 1, text: 1, createdAt: 1 } },
     { $sort: { createdAt: -1 } },
     {
       $group: {
@@ -25,7 +25,7 @@ const retrieveAllChats = async (userId) => {
         receiverId: { $first: '$receiverId' },
         text: { $first: '$text' },
         timeStamp: { $first: '$createdAt' },
-        numberOfMessages: { $sum: 1 },
+        // totalMessagesCount: { $sum: 1 },
       },
     },
     { $sort: { timeStamp: -1 } },
