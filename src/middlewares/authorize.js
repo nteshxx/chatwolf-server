@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const crypto = require('crypto-js');
 const authService = require('../services/auth.service');
-const APIError = require('../utils/APIError');
+// const APIError = require('../utils/APIError');
 
 dotenv.config();
 
