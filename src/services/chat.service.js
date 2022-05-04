@@ -6,10 +6,16 @@ const pushMessage = async (senderId, receiverId, chatId, text, attachment) => {
   Message.create({ senderId, receiverId, chatId, text, attachment });
 };
 
-// add pagination here
-const retrieveChat = async (chatId) => {
-  const messages = await Message.find({ chatId });
-  return messages;
+const retrieveChat = async (chatId, page, limit) => {
+  const skipIndex = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+  const totalMessages = await Message.find({ chatId }).count();
+  const totalPages = Math.ceil(totalMessages / parseInt(limit, 10));
+  const messages = await Message.find({ chatId })
+    .skip(skipIndex)
+    .limit(parseInt(limit, 10))
+    .sort([['createdAt', -1]]);
+
+  return { totalPages, currentPage: page, limit, messages };
 };
 
 const retrieveAllChats = async (userId) => {

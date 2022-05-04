@@ -15,9 +15,9 @@ const sendMessage = catchAsync(async (req, res) => {
 });
 
 const getMessages = async (req, res) => {
-  const { chatId } = req.body;
-  const messages = await chatService.retrieveChat(chatId);
-  res.status(httpStatus.OK).json({ message: 'Success', messages });
+  const { chatId, page, limit } = req.query;
+  const result = await chatService.retrieveChat(chatId, page, limit);
+  res.status(httpStatus.OK).json({ message: 'Success', result });
 };
 
 const getChats = async (req, res) => {

@@ -19,12 +19,14 @@ const sendMessage = {
 };
 
 const getMessages = {
-  body: Joi.object()
+  query: Joi.object()
     .keys({
       chatId: Joi.string().required(),
+      page: Joi.number().required().min(1),
+      limit: Joi.number().required().min(1),
     })
-    .min(1)
-    .max(1),
+    .min(3)
+    .max(3),
 };
 
 module.exports = {
