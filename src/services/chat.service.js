@@ -13,8 +13,9 @@ const retrieveChat = async (chatId, page, limit) => {
   const messages = await Message.find({ chatId })
     .skip(skipIndex)
     .limit(parseInt(limit, 10))
-    .sort([['createdAt', -1]]);
-
+    .sort([['createdAt', -1]])
+    .lean();
+  messages.reverse();
   return { totalPages, currentPage: page, limit, messages };
 };
 
