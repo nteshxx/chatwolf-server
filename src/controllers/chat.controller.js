@@ -14,17 +14,20 @@ const sendMessage = catchAsync(async (req, res) => {
   return res.status(httpStatus.OK).json({ message: 'Failed' });
 });
 
-const getMessages = async (req, res) => {
+const getMessages = catchAsync(async (req, res) => {
   const { chatId, page, limit } = req.query;
   const result = await chatService.retrieveChat(chatId, page, limit);
-  res.status(httpStatus.OK).json({ message: 'Success', result });
-};
+  if (result.messages.length === 0) {
+    return res.status(httpStatus.NOT_FOUND).json({ message: 'No Messages Found', result });
+  }
+  return res.status(httpStatus.OK).json({ message: 'Success', result });
+});
 
-const getChats = async (req, res) => {
+const getChats = catchAsync(async (req, res) => {
   const userId = req.id;
   const chats = await chatService.retrieveAllChats(userId);
   res.status(httpStatus.OK).json({ message: 'Success', chats });
-};
+});
 
 module.exports = {
   sendMessage,
